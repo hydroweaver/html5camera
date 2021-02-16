@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="main">
+        </div>
+        <script src="html5-qrcode.min.js"></script>
+        <script>
+
+            Html5Qrcode.getCameras().then(devices => {
+      /**
+        * devices would be an array of objects of type:
+        * { id: "id", label: "label" }
+       */
+      
+
+//       id: "39cf8c52af1407579be3ab9b5a3d8b462d337ca3ac05b73d6fbb5b92584ee045"
+// label: "EasyCamera (04f2:b5da)"
+       if (devices && devices.length) {
+           for(var i=0;i<devices.length;i++){
+               console.log(devices[i]);
+           }
+           var cameraId = devices[0].id;
+            // .. use this to start scanning.
+        }
+   }).catch(err => {
+        // handle err   
+});
+
+const html5QrCode = new Html5Qrcode("main");
+html5QrCode.start(
+  "775066d28622650071aab54c982582ae8b554b0cc8fdbce3daabf92bc7a2b3b6", 
+  {
+    fps: 10,    // Optional frame per seconds for qr code scanning
+    qrbox: 250  // Optional if you want bounded box UI
+  },
+  qrCodeMessage => {
+    console.log('qrCodeMessage');
+    html5QrCode.stop().then(ignore => {
+  // QR Code scanning is stopped. 
+  console.log("QR Code scanning stopped.");
+}).catch(err => { 
+  // Stop failed, handle it. 
+  console.log("Unable to stop scanning");
+ });
+  },
+  errorMessage => {
+    console.log('error');
+  })
+.catch(err => {
+    console.log('catch');
+});
+        </script>
+    </body>
+</html>
